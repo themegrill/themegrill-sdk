@@ -25,3 +25,9 @@ artifact
 .git
 composer.json
 docs
+postcss.config.js
+artifacts
+.wp-env.override.json
+themegrill-sdk.php
+vendor
+.editorconfig
