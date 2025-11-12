@@ -55,7 +55,7 @@ class ModuleFactory {
 		}
 
 		foreach ( $modules as $module ) {
-			$class = 'ThemeGrillSDK\\Modules\\' . ucwords( $module, '_' );
+			$class = 'ThemeGrillSDK\\Modules\\' . str_replace( ' ', '', ucwords( str_replace( '_', ' ', $module ) ) );
 			/**
 			 * Module object.
 			 *

@@ -48,11 +48,8 @@ final class Loader {
 		'script_loader',
 		'rollback',
 		'uninstall_feedback',
-		'licenser',
 		'logger',
-		'review',
 		'notification',
-		'welcome',
 		'announcements',
 	];
 	/**
@@ -61,21 +58,13 @@ final class Loader {
 	 * @var array The labels for the modules.
 	 */
 	public static $labels = [
-		'announcements'   => [
+		'announcements' => [
 			'notice_link_label' => 'See the Offer',
 			'max_savings'       => 'Our biggest sale of the year: <strong>%s OFF everything!</strong>  Don\'t miss this limited-time offer.',
 			'black_friday'      => 'Black Friday Sale',
 			'time_left'         => '%s left',
 		],
-		'compatibilities' => [
-			'notice'        => '%s requires a newer version of %s. Please %supdate%s %s %s to the latest version.',
-			'notice2'       => '%s update requires a newer version of %s. Please %supdate%s %s %s.',
-			'notice_theme'  => '%1$sWarning:%2$s This theme has not been tested with your current version of %1$s%3$s%2$s. Please update %3$s plugin.',
-			'notice_plugin' => '%1$sWarning:%2$s This plugin has not been tested with your current version of %1$s%3$s%2$s. Please update %3$s %4$s.',
-			'theme'         => 'theme',
-			'plugin'        => 'plugin',
-		],
-		'uninstall'       => [
+		'uninstall'     => [
 			'heading_plugin' => 'What\'s wrong?',
 			'heading_theme'  => 'What does not work for you in {theme}?',
 			'submit'         => 'Submit',
@@ -128,10 +117,10 @@ final class Loader {
 				],
 			],
 		],
-		'rollback'        => [
+		'rollback'      => [
 			'cta' => 'Rollback to v%s',
 		],
-		'logger'          => [
+		'logger'        => [
 			'notice' => 'Do you enjoy <b>{product}</b>? Become a contributor by opting in to our anonymous data tracking. We guarantee no sensitive data is collected.',
 			'cta_y'  => 'Sure, I would love to help.',
 			'cta_n'  => 'No, thanks.',
@@ -150,7 +139,7 @@ final class Loader {
 			self::$instance = new Loader();
 			$modules        = array_merge( self::$available_modules, apply_filters( 'themegrill_sdk_modules', [] ) );
 			foreach ( $modules as $key => $module ) {
-				if ( ! class_exists( 'ThemeGrillSDK\\Modules\\' . ucwords( $module, '_' ) ) ) {
+				if ( ! class_exists( 'ThemeGrillSDK\\Modules\\' . str_replace( ' ', '', ucwords( str_replace( '_', ' ', $module ) ) ) ) ) {
 					unset( $modules[ $key ] );
 				}
 			}
