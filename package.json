@@ -1,7 +1,7 @@
 {
   "name": "themegrill-sdk",
   "description": "ThemeGrill SDK",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "dev": "npm run start",
     "start:survey": "wp-scripts start assets/js/src/survey_deps.js --output-path=assets/js/build/survey --devtool inline-source-map",
