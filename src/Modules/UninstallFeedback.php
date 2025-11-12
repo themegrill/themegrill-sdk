@@ -85,7 +85,6 @@ class UninstallFeedback extends AbstractModule {
 			'type' => 'text',
 		),
 		'id10' => array(
-
 			'title' => '',
 			'id'    => 10,
 		),
@@ -186,7 +185,7 @@ class UninstallFeedback extends AbstractModule {
 
 			.tgsdk-feedback .popup--header {
 				position: relative;
-				background-color: #23A1CE;
+				background-color: #2271b1;
 			}
 
 			.tgsdk-feedback .popup--header h5 {
@@ -315,7 +314,7 @@ class UninstallFeedback extends AbstractModule {
 				border-top-left-radius: 5px;
 				border-top-right-radius: 5px;
 				font-size: 20px;
-				background-color: #23A1CE;
+				background-color: #2271b1;
 				color: #fff;
 				border: none;
 				line-height: 20px;
@@ -345,11 +344,11 @@ class UninstallFeedback extends AbstractModule {
 			echo is_rtl() ?
 			'right: -10px;
 			border-top: 20px solid transparent;
-			border-left: 20px solid #23A1CE;
+			border-left: 20px solid #2271b1;
 			border-bottom: 20px solid transparent;' :
 			'left: -10px;
 			border-top: 20px solid transparent;
-			border-right: 20px solid #23A1CE;
+			border-right: 20px solid #2271b1;
 			border-bottom: 20px solid transparent;';
 			?>
 			}
@@ -772,7 +771,11 @@ class UninstallFeedback extends AbstractModule {
 		$response = wp_remote_post(
 			self::FEEDBACK_ENDPOINT,
 			array(
-				'body' => $attributes,
+				'body'    => wp_json_encode( $attributes ),
+				'headers' => array(
+					'Content-Type' => 'application/json',
+					'User-Agent'   => 'ThemeGrillSDK',
+				),
 			)
 		);
 

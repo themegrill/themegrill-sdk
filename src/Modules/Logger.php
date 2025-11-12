@@ -155,16 +155,22 @@ class Logger extends AbstractModule {
 				'method'      => 'POST',
 				'timeout'     => 3,
 				'redirection' => 5,
-				'body'        => array(
-					'site'         => get_site_url(),
-					'slug'         => $this->product->get_slug(),
-					'version'      => $this->product->get_version(),
-					'wp_version'   => $wp_version,
-					'install_time' => $this->product->get_install_time(),
-					'locale'       => get_locale(),
-					'data'         => apply_filters( $this->product->get_key() . '_logger_data', array() ),
-					'environment'  => $environment,
-					'license'      => apply_filters( $this->product->get_key() . '_license_status', '' ),
+				'body'        => wp_json_encode(
+					array(
+						'site'         => get_site_url(),
+						'slug'         => $this->product->get_slug(),
+						'version'      => $this->product->get_version(),
+						'wp_version'   => $wp_version,
+						'install_time' => $this->product->get_install_time(),
+						'locale'       => get_locale(),
+						'data'         => apply_filters( $this->product->get_key() . '_logger_data', array() ),
+						'environment'  => $environment,
+						'license'      => apply_filters( $this->product->get_key() . '_license_status', '' ),
+					)
+				),
+				'headers'     => array(
+					'Content-Type' => 'application/json',
+					'User-Agent'   => 'ThemeGrillSDK',
 				),
 			)
 		);
