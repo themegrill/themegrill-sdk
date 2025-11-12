@@ -55,3 +55,63 @@ if ( ! function_exists( 'themegrill_sdk_load_latest' ) ) :
 endif;
 
 add_action( 'init', 'themegrill_sdk_load_latest' );
+
+
+if ( ! function_exists( 'tgsdk_utmify' ) ) {
+	/**
+	 * Utmify a link.
+	 *
+	 * @param string $url URL to add utms.
+	 * @param string $area Area in page where this is used ( CTA, image, section name).
+	 * @param string $location Location, such as customizer, about page.
+	 *
+	 * @return string
+	 */
+	function tgsdk_utmify( $url, $area, $location = null ) {
+		static $current_page = null;
+		if ( $location === null && $current_page === null ) {
+			global $pagenow;
+			$screen       = function_exists( 'get_current_screen' ) ? get_current_screen() : $pagenow;
+			$current_page = isset( $screen->id ) ? $screen->id : ( ( $screen === null ) ? 'non-admin' : $screen );
+			$current_page = sanitize_key( str_replace( '.php', '', $current_page ) );
+		}
+		$location        = $location === null ? $current_page : $location;
+		$content         = sanitize_key(
+			trim(
+				str_replace(
+					apply_filters(
+						'tgsdk_utmify_replace',
+						[
+							'https://',
+							'themegrill.com',
+							'/themes/',
+							'/plugins/',
+							'/upgrade',
+						]
+					),
+					'',
+					$url
+				),
+				'/'
+			)
+		);
+		$filter_key      = sanitize_key( $content );
+		$url_args        = [
+			'utm_source'   => 'wpadmin',
+			'utm_medium'   => $location,
+			'utm_campaign' => $area,
+			'utm_content'  => $content,
+		];
+		$query_arguments = apply_filters( 'tgsdk_utmify_' . $filter_key, $url_args, $url );
+		$utmify_url      = esc_url_raw(
+			add_query_arg(
+				$query_arguments,
+				$url
+			)
+		);
+
+		return apply_filters( 'tgsdk_utmify_url_' . $filter_key, $utmify_url, $url );
+	}
+
+	add_filter( 'tgsdk_utmify', 'tgsdk_utmify', 10, 3 );
+}

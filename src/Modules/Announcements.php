@@ -188,8 +188,14 @@ class Announcements extends AbstractModule {
 			$utm_location = $this->product->get_friendly_name();
 		}
 
-		$sale_title   = Loader::$labels['announcements']['black_friday'];
-		$sale_url     = tsdk_translate_link( tsdk_utmify( 'https://themegrill.com/blackfriday/', 'bfcm25', $utm_location ) );
+		$sale_title = Loader::$labels['announcements']['black_friday'];
+		$sale_url   = apply_filters( 'themegrill_sdk_announcements_sale_url', '' );
+		$sale_url   = tgsdk_utmify(
+			apply_filters( 'themegrill_sdk_black_friday_url', 'https://themegrill.com/blackfriday/' ),
+			apply_filters( 'themegrill_sdk_black_friday_campaign_name', 'bfcm25' ),
+			$utm_location
+		);
+
 		$sale_message = sprintf( Loader::$labels['announcements']['max_savings'], '50%' );
 
 		return array(
