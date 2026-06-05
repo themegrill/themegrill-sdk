@@ -113,6 +113,13 @@ class Product {
 	 */
 	private $version;
 	/**
+	 * EDD download ID used for licensing and updates.
+	 * Set via file header: EDD Item ID: 123
+	 *
+	 * @var int $item_id The EDD item ID.
+	 */
+	private $item_id = 0;
+	/**
 	 * Holds a map of loaded products objects.
 	 *
 	 * @var array Array of loaded products.
@@ -226,6 +233,7 @@ class Product {
 			'WordPress Available' => 'WordPress Available',
 			'Pro Slug'            => 'Pro Slug',
 			'Version'             => 'Version',
+			'EDD Item ID'         => 'EDD Item ID',
 		);
 		if ( 'plugin' === $this->type ) {
 			$file_headers['Name']       = 'Plugin Name';
@@ -248,6 +256,7 @@ class Product {
 		$this->wordpress_available = ( 'yes' === $file_headers['WordPress Available'] ) ? true : false;
 		$this->pro_slug            = ! empty( $file_headers['Pro Slug'] ) ? $file_headers['Pro Slug'] : '';
 		$this->version             = $file_headers['Version'];
+		$this->item_id             = ! empty( $file_headers['EDD Item ID'] ) ? (int) $file_headers['EDD Item ID'] : 0;
 	}
 
 	/**
@@ -325,13 +334,22 @@ class Product {
 	}
 
 	/**
+	 * Returns the EDD item ID for licensing and update checks.
+	 *
+	 * @return int The EDD item ID, or 0 if not set.
+	 */
+	public function get_item_id() {
+		return $this->item_id;
+	}
+
+	/**
 	 * Returns current product license, if available.
 	 *
 	 * @return string Return license key, if available.
 	 */
 	public function get_license() {
 
-		if ( ! $this->requires_license() && ! $this->is_wordpress_available() ) {
+		if ( ! $this->requires_license() ) {
 			return 'free';
 		}
 		$license_data = get_option( $this->get_key() . '_license_data', '' );
