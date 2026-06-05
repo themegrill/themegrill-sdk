@@ -134,15 +134,15 @@ class Updater extends AbstractModule {
 		$version     = $transient->checked[ $plugin_file ] ?? $this->product->get_version();
 		$info        = $this->get_version_info();
 
-		if ( empty( $info ) || empty( $info['new_version'] ) ) {
+		if ( empty( $info ) || empty( $info['version'] ) ) {
 			return $transient;
 		}
 
-		if ( version_compare( $info['new_version'], $version, '>' ) ) {
+		if ( version_compare( $info['version'], $version, '>' ) ) {
 			$update                              = array(
 				'slug'         => $this->product->get_slug(),
 				'plugin'       => $plugin_file,
-				'new_version'  => $info['new_version'],
+				'new_version'  => $info['version'],
 				'url'          => $info['homepage'] ?? '',
 				'package'      => $info['package'] ?? '',
 				'icons'        => array(),
@@ -183,7 +183,7 @@ class Updater extends AbstractModule {
 		$api                = new \stdClass();
 		$api->name          = $info['name'] ?? $this->product->get_name();
 		$api->slug          = $this->product->get_slug();
-		$api->version       = $info['new_version'] ?? $this->product->get_version();
+		$api->version       = $info['version'] ?? $this->product->get_version();
 		$api->author        = $this->product->get_store_name();
 		$api->homepage      = $info['homepage'] ?? $this->product->get_store_url();
 		$api->requires      = $info['requires'] ?? '';
@@ -217,14 +217,14 @@ class Updater extends AbstractModule {
 		$version = $transient->checked[ $slug ] ?? $this->product->get_version();
 		$info    = $this->get_version_info();
 
-		if ( empty( $info ) || empty( $info['new_version'] ) ) {
+		if ( empty( $info ) || empty( $info['version'] ) ) {
 			return $transient;
 		}
 
-		if ( version_compare( $info['new_version'], $version, '>' ) ) {
+		if ( version_compare( $info['version'], $version, '>' ) ) {
 			$transient->response[ $slug ] = array(
 				'theme'        => $slug,
-				'new_version'  => $info['new_version'],
+				'new_version'  => $info['version'],
 				'url'          => $info['homepage'] ?? '',
 				'package'      => $info['package'] ?? '',
 				'requires'     => $info['requires'] ?? '',
