@@ -113,10 +113,10 @@ class Product {
 	 */
 	private $version;
 	/**
-	 * EDD download ID used for licensing and updates.
-	 * Set via file header: EDD Item ID: 123
+	 * TG download ID used for licensing and updates.
+	 * Set via file header: TG Item ID: 123
 	 *
-	 * @var int $item_id The EDD item ID.
+	 * @var int $item_id The TG item ID.
 	 */
 	private $item_id = 0;
 	/**
@@ -229,11 +229,11 @@ class Product {
 	 */
 	public function setup_from_fileheaders() {
 		$file_headers = array(
-			'Requires License'    => 'Requires License',
-			'WordPress Available' => 'WordPress Available',
-			'Pro Slug'            => 'Pro Slug',
-			'Version'             => 'Version',
-			'EDD Item ID'         => 'EDD Item ID',
+			'RequiresLicense'    => 'Requires License',
+			'WordPressAvailable' => 'WordPress Available',
+			'ProSlug'            => 'Pro Slug',
+			'Version'            => 'Version',
+			'TGItemID'           => 'TG Item ID',
 		);
 		if ( 'plugin' === $this->type ) {
 			$file_headers['Name']       = 'Plugin Name';
@@ -252,11 +252,11 @@ class Product {
 		$this->author_url = $file_headers['AuthorURI'];
 		$this->store_url  = $file_headers['AuthorURI'];
 
-		$this->requires_license    = ( 'yes' === $file_headers['Requires License'] ) ? true : false;
-		$this->wordpress_available = ( 'yes' === $file_headers['WordPress Available'] ) ? true : false;
-		$this->pro_slug            = ! empty( $file_headers['Pro Slug'] ) ? $file_headers['Pro Slug'] : '';
+		$this->requires_license    = ( 'yes' === $file_headers['RequiresLicense'] ) ? true : false;
+		$this->wordpress_available = ( 'yes' === $file_headers['WordPressAvailable'] ) ? true : false;
+		$this->pro_slug            = ! empty( $file_headers['ProSlug'] ) ? $file_headers['Pro Slug'] : '';
 		$this->version             = $file_headers['Version'];
-		$this->item_id             = ! empty( $file_headers['EDD Item ID'] ) ? (int) $file_headers['EDD Item ID'] : 0;
+		$this->item_id             = ! empty( $file_headers['TGItemID'] ) ? (int) $file_headers['TGItemID'] : 0;
 	}
 
 	/**
@@ -334,9 +334,9 @@ class Product {
 	}
 
 	/**
-	 * Returns the EDD item ID for licensing and update checks.
+	 * Returns the TG item ID for licensing and update checks.
 	 *
-	 * @return int The EDD item ID, or 0 if not set.
+	 * @return int The TG item ID, or 0 if not set.
 	 */
 	public function get_item_id() {
 		return $this->item_id;

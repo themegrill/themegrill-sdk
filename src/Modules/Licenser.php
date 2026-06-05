@@ -5,7 +5,7 @@
  * Handles activate / deactivate / check against api.themegrill.com.
  * Requires the product file to declare:
  *   Requires License: yes
- *   EDD Item ID: 123
+ *   TG Item ID: 123
  *
  * @package     ThemeGrillSDK
  * @subpackage  Modules

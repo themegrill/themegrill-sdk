@@ -5,7 +5,7 @@
  * Hooks into WordPress update system and fetches version info from
  * api.themegrill.com/licenses/version for both plugins and themes.
  * Requires the product file to declare:
- *   EDD Item ID: 123
+ *   TG Item ID: 123
  *
  * @package     ThemeGrillSDK
  * @subpackage  Modules
