@@ -95,7 +95,7 @@ class Updater extends AbstractModule {
 		/** @var \ThemeGrillSDK\Modules\Licenser|null $licenser */
 		$licenser = ModuleFactory::get_module( $this->product->get_slug(), 'licenser' );
 		if ( $licenser instanceof Licenser ) {
-			return $licenser->is_valid();
+			return $licenser->is_active();
 		}
 
 		// Fallback: read option directly.
@@ -126,7 +126,7 @@ class Updater extends AbstractModule {
 	 * @return object
 	 */
 	public function inject_plugin_update( $transient ) {
-		if ( empty( $transient->checked ) || ! $this->has_valid_license() ) {
+		if ( empty( $transient->checked ) ) {
 			return $transient;
 		}
 

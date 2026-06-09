@@ -107,7 +107,7 @@ class Licenser extends AbstractModule {
 
 		if ( ! empty( $response['success'] ) ) {
 			update_option( $this->product->get_key() . '_license', $license_key );
-			$this->store_status( $response['license'] ?? 'valid', $response );
+			$this->store_status( $response['license'] ?? 'active', $response );
 		}
 
 		return $response;
@@ -162,7 +162,7 @@ class Licenser extends AbstractModule {
 
 		$response = $this->request( 'check', $body );
 
-		$status = $response['license'] ?? 'invalid';
+		$status = $response['license'] ?? 'inactive';
 		$this->store_status( $status, $response );
 
 		return $response;
@@ -181,12 +181,12 @@ class Licenser extends AbstractModule {
 	}
 
 	/**
-	 * True when the locally cached status is 'valid'.
+	 * True when the locally cached status is 'active'.
 	 *
 	 * @return bool
 	 */
-	public function is_valid() {
-		return $this->get_stored_status() === 'valid';
+	public function is_active() {
+		return $this->get_stored_status() === 'active';
 	}
 
 	// -------------------------------------------------------------------------
