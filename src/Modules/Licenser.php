@@ -185,8 +185,8 @@ class Licenser extends AbstractModule {
 	 *
 	 * @return bool
 	 */
-	public function is_active() {
-		return $this->get_stored_status() === 'active';
+	public function is_valid() {
+		return $this->get_stored_status() === 'valid';
 	}
 
 	// -------------------------------------------------------------------------
@@ -243,8 +243,7 @@ class Licenser extends AbstractModule {
 			);
 		}
 
-		$status = (int) wp_remote_retrieve_response_code( $result );
-		$data   = json_decode( wp_remote_retrieve_body( $result ), true );
+		$data = json_decode( wp_remote_retrieve_body( $result ), true );
 
 		if ( ! is_array( $data ) ) {
 			return array(
@@ -253,12 +252,9 @@ class Licenser extends AbstractModule {
 			);
 		}
 
-		// Non-2xx with WP error envelope: { success: false, error: { code, message } }.
-		if ( $status >= 400 && isset( $data['error'] ) ) {
-			return array(
-				'success' => false,
-				'error'   => $data['error']['code'] ?? 'api_error',
-			);
+		// activate/deactivate wrap payload in a `data` key; check returns flat.
+		if ( isset( $data['data'] ) && is_array( $data['data'] ) ) {
+			return $data['data'];
 		}
 
 		return $data;

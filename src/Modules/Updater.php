@@ -95,7 +95,7 @@ class Updater extends AbstractModule {
 		/** @var \ThemeGrillSDK\Modules\Licenser|null $licenser */
 		$licenser = ModuleFactory::get_module( $this->product->get_slug(), 'licenser' );
 		if ( $licenser instanceof Licenser ) {
-			return $licenser->is_active();
+			return $licenser->is_valid();
 		}
 
 		// Fallback: read option directly.
@@ -126,7 +126,7 @@ class Updater extends AbstractModule {
 	 * @return object
 	 */
 	public function inject_plugin_update( $transient ) {
-		if ( empty( $transient->checked ) ) {
+		if ( empty( $transient->checked ) || ! $this->has_valid_license() ) {
 			return $transient;
 		}
 
@@ -296,11 +296,13 @@ class Updater extends AbstractModule {
 		}
 
 		$status = (int) wp_remote_retrieve_response_code( $response );
-		$data   = json_decode( wp_remote_retrieve_body( $response ), true );
+		$body   = json_decode( wp_remote_retrieve_body( $response ), true );
 
-		if ( $status !== 200 || ! is_array( $data ) ) {
+		if ( $status !== 200 || ! is_array( $body ) || empty( $body['success'] ) || ! isset( $body['data'] ) ) {
 			return null;
 		}
+
+		$data = $body['data'];
 
 		set_transient( $cache_key, $data, self::CACHE_TTL );
 
