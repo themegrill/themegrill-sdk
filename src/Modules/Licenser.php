@@ -212,7 +212,7 @@ class Licenser extends AbstractModule {
 		if ( empty( $key ) || 'free' === $key ) {
 			return;
 		}
-		$this->check( $key );
+		$this->check( $key, home_url() );
 	}
 
 	/**
