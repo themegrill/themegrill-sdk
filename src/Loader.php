@@ -32,7 +32,7 @@ final class Loader {
 	 *
 	 * @var string $version The class version.
 	 */
-	private static $version = '1.0.1';
+	private static $version = '1.0.2';
 	/**
 	 * Holds registered products.
 	 *
