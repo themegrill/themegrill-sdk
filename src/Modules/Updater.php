@@ -126,7 +126,7 @@ class Updater extends AbstractModule {
 	 * @return object
 	 */
 	public function inject_plugin_update( $transient ) {
-		if ( empty( $transient->checked ) || ! $this->has_valid_license() ) {
+		if ( empty( $transient->checked ) ) {
 			return $transient;
 		}
 
@@ -209,7 +209,7 @@ class Updater extends AbstractModule {
 	 * @return object
 	 */
 	public function inject_theme_update( $transient ) {
-		if ( empty( $transient->checked ) || ! $this->has_valid_license() ) {
+		if ( empty( $transient->checked ) ) {
 			return $transient;
 		}
 
@@ -296,13 +296,11 @@ class Updater extends AbstractModule {
 		}
 
 		$status = (int) wp_remote_retrieve_response_code( $response );
-		$body   = json_decode( wp_remote_retrieve_body( $response ), true );
+		$data   = json_decode( wp_remote_retrieve_body( $response ), true );
 
-		if ( $status !== 200 || ! is_array( $body ) || empty( $body['success'] ) || ! isset( $body['data'] ) ) {
+		if ( $status !== 200 || ! is_array( $data ) || empty( $data ) || json_last_error() !== JSON_ERROR_NONE ) {
 			return null;
 		}
-
-		$data = $body['data'];
 
 		set_transient( $cache_key, $data, self::CACHE_TTL );
 
