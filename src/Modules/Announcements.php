@@ -346,7 +346,9 @@ class Announcements extends AbstractModule {
 				<div class="themegrill-sale-logo">
 					<img
 						width="45"
+						height="45"
 						src="<?php echo esc_url( $this->get_sdk_uri() . 'assets/images/themegrill-logo.png' ); ?>"
+						alt="ThemeGrill"
 					/>
 				</div>
 				<div class="themegrill-sale-content">
