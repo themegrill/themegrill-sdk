@@ -306,11 +306,13 @@ class Announcements extends AbstractModule {
 				color: white;
 				font-weight: 700;
 			}
-			.themegrill-sale-dont-show {
-				align-self: center;
-				margin-left: 12px;
+			.themegrill-sale p a.themegrill-sale-dont-show {
+				margin-left: 6px;
+				padding: 0;
+				background: none;
 				color: #787c82;
-				font-size: 12px;
+				font-weight: 400;
+				text-decoration: underline;
 			}
 			.themegrill-sale-dismiss {
 				padding-top: 5px;
@@ -372,6 +374,11 @@ class Announcements extends AbstractModule {
 					</h4>
 					<p>
 						<?php echo wp_kses_post( $data['message'] ); ?>
+						<?php if ( $can_dismiss ) : ?>
+						<a href="<?php echo esc_url( $dont_show_again_url ); ?>" class="themegrill-sale-dont-show">
+							<?php echo esc_html( Loader::$labels['announcements']['dont_show_again'] ); ?>
+						</a>
+						<?php endif; ?>
 					</p>
 				</div>
 				<div class="themegrill-sale-action">
@@ -382,11 +389,6 @@ class Announcements extends AbstractModule {
 					>
 					<?php echo esc_html( Loader::$labels['announcements']['notice_link_label'] ); ?>
 					</a>
-					<?php if ( $can_dismiss ) : ?>
-					<a href="<?php echo esc_url( $dont_show_again_url ); ?>" class="themegrill-sale-dont-show">
-						<?php echo esc_html( Loader::$labels['announcements']['dont_show_again'] ); ?>
-					</a>
-					<?php endif; ?>
 				</div>
 				<?php if ( $can_dismiss ) : ?>
 				<a href="<?php echo esc_url( $dismiss_notice_url ); ?>" class="themegrill-sale-dismiss">
