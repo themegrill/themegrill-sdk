@@ -498,8 +498,12 @@ class UninstallFeedback extends AbstractModule {
 		<ul class="popup--form">
 			<?php
 			foreach ( $options as $idx => $attributes ) {
-				$title       = Loader::$labels['uninstall']['options'][ $idx ]['title'];
-				$placeholder = array_key_exists( 'placeholder', Loader::$labels['uninstall']['options'][ $idx ] ) ? Loader::$labels['uninstall']['options'][ $idx ]['placeholder'] : '';
+				if ( empty( Loader::$labels['uninstall']['options'][ $idx ] ) || ! is_array( Loader::$labels['uninstall']['options'][ $idx ] ) ) {
+					continue;
+				}
+				$label       = Loader::$labels['uninstall']['options'][ $idx ];
+				$title       = isset( $label['title'] ) ? $label['title'] : '';
+				$placeholder = isset( $label['placeholder'] ) ? $label['placeholder'] : '';
 				?>
 				<li tgsdk-option-id="<?php echo esc_attr( $attributes['id'] ); ?>">
 					<input type="radio" name="tgsdk-deactivate-option"
